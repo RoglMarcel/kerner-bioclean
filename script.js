@@ -230,8 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdown.classList.add('open');
       }
     });
-
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!dropdown.contains(e.target) && e.target !== dateInput) {
         dropdown.classList.remove('open');
