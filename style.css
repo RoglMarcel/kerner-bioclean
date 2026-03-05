@@ -370,7 +370,7 @@ section {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('Hintergrund-Image.png') center/cover no-repeat;
+    background: url('Hintergrund-Image.jepg') center/cover no-repeat;
     opacity: 0.25;
 }
 
@@ -1589,3 +1589,4 @@ section {
         font-size: 0.6rem;
     }
 }
+
