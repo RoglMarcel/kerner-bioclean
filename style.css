@@ -226,6 +226,14 @@ section {
     transition-delay: 0.7s;
 }
 
+.stagger>.reveal:nth-child(9) {
+    transition-delay: 0.8s;
+}
+
+.stagger>.reveal:nth-child(10) {
+    transition-delay: 0.9s;
+}
+
 /* ============================================================
    NAVIGATION
    ============================================================ */
@@ -1474,7 +1482,6 @@ section {
     }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
@@ -1491,7 +1498,6 @@ section {
         box-shadow: var(--shadow-xl);
         transition: right var(--transition);
     }
-
     .nav-links.open {
         right: 0;
     }
