@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
 
+  if (menuToggle && navLinks) {
   menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
     navLinks.classList.toggle('open');
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = '';
     });
   });
+  }
 
   // ======================== SCROLL REVEAL ANIMATIONS ========================
   const revealElements = document.querySelectorAll('.reveal');
@@ -79,32 +81,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // ======================== CONTACT FORM ========================
   const contactForm = document.getElementById('contactForm');
 
-  contactForm.addEventListener('submit', () => {
-    // Let the native form POST go through to Formsubmit.co
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    submitBtn.textContent = 'Wird gesendet …';
-    submitBtn.style.opacity = '0.7';
-  });
+  if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+      // Let the native form POST go through to Formsubmit.co
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      submitBtn.textContent = 'Wird gesendet …';
+      submitBtn.style.opacity = '0.7';
+    });
+  }
 
   // ======================== COOKIE BANNER ========================
   const cookieBanner = document.getElementById('cookieBanner');
   const cookieAccept = document.getElementById('cookieAccept');
   const cookieDecline = document.getElementById('cookieDecline');
 
-  // Check if user already made a choice
-  if (!localStorage.getItem('cookieConsent')) {
-    setTimeout(() => {
-      cookieBanner.classList.add('show');
-    }, 1500);
+  if (cookieBanner && cookieAccept && cookieDecline) {
+    // Check if user already made a choice
+    if (!localStorage.getItem('cookieConsent')) {
+      setTimeout(() => {
+        cookieBanner.classList.add('show');
+      }, 1500);
+    }
+
+    const hideCookieBanner = (choice) => {
+      localStorage.setItem('cookieConsent', choice);
+      cookieBanner.classList.remove('show');
+    };
+
+    cookieAccept.addEventListener('click', () => hideCookieBanner('accepted'));
+    cookieDecline.addEventListener('click', () => hideCookieBanner('declined'));
   }
-
-  const hideCookieBanner = (choice) => {
-    localStorage.setItem('cookieConsent', choice);
-    cookieBanner.classList.remove('show');
-  };
-
-  cookieAccept.addEventListener('click', () => hideCookieBanner('accepted'));
-  cookieDecline.addEventListener('click', () => hideCookieBanner('declined'));
 
   // ======================== ACTIVE NAV LINK ON SCROLL ========================
   const sections = document.querySelectorAll('section[id]');
@@ -230,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdown.classList.add('open');
       }
     });
+
+    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!dropdown.contains(e.target) && e.target !== dateInput) {
         dropdown.classList.remove('open');
