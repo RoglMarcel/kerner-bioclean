@@ -993,7 +993,7 @@ section {
 }
 
 .pricing-card {
-    max-width: 700px;
+    max-width: 840px;
     margin: 0 auto;
     text-align: center;
     background: var(--bg);
@@ -2153,61 +2153,74 @@ textarea:focus-visible {
     outline-color: var(--white);
 }
 
-.form-legend {
-    font-size: 0.82rem;
+.contact-form-wrapper > p {
+    max-width: 100%;
+    font-size: 0.95rem;
     color: var(--dark-soft);
-    margin-bottom: 16px;
+    margin-bottom: 6px;
+}
+
+.form-legend {
+    font-size: 0.75rem;
+    color: #8c8c8c;
+    max-width: 100%;
+    margin-bottom: 20px;
 }
 
 .form-hint-group {
-    margin-top: -10px;
+    margin-top: -12px;
     margin-bottom: 6px;
 }
 
 .form-hint {
-    font-size: 0.8rem;
-    color: var(--dark-soft);
+    font-size: 0.75rem;
+    color: #8c8c8c;
+    max-width: 100%;
     margin: 0;
-    font-style: italic;
+    font-style: normal;
+    line-height: 1.4;
 }
 
 .form-privacy-note {
-    font-size: 0.85rem;
+    font-size: 0.76rem;
     line-height: 1.55;
-    color: var(--dark-soft);
+    color: #8c8c8c;
+    max-width: 100%;
     margin: 0;
 }
 
 .form-privacy-note a {
     color: var(--primary);
     text-decoration: underline;
-    text-underline-offset: 2px;
+    opacity: 0.85;
 }
 
 .reviews-note {
-    font-size: 0.82rem;
-    line-height: 1.65;
-    color: var(--dark-soft);
+    font-size: 0.76rem;
+    line-height: 1.6;
+    color: #8c8c8c;
     text-align: center;
-    max-width: 800px;
+    max-width: 100%;
+    width: 100%;
     margin: 36px auto 0;
-    padding-top: 20px;
-    border-top: 1px solid var(--sand);
+    padding-top: 22px;
+    border-top: 1px solid rgba(232, 224, 208, 0.6);
 }
 
 .pricing-note {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--primary-dark);
-    margin-top: -10px;
-    margin-bottom: 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #858585;
+    max-width: 100%;
+    margin: 2px auto 8px;
+    line-height: 1.5;
 }
 
 .pricing-desc {
-    font-size: 0.95rem;
-    line-height: 1.65;
-    color: var(--dark-soft);
-    max-width: 620px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: #8c8c8c;
+    max-width: 100%;
     margin: 0 auto 28px;
 }
 
