@@ -1,6 +1,6 @@
 /* ============================================================
    Kerner bioClean – Website JavaScript
-   Scroll animations, sticky nav, mobile menu, cookie banner
+   Scroll animations, sticky nav, mobile menu, form validation
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.getElementById('navbar');
 
   const handleScroll = () => {
+    if (!navbar) return;
     if (window.scrollY > 60) {
       navbar.classList.add('scrolled');
     } else {
@@ -24,20 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.getElementById('navLinks');
 
   if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    navLinks.classList.toggle('open');
-    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-  });
-
-  // Close menu when link is clicked
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menuToggle.classList.remove('active');
-      navLinks.classList.remove('open');
-      document.body.style.overflow = '';
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('open');
+      const isOpen = navLinks.classList.contains('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-  });
+
+    // Close menu when link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Menü öffnen');
+        document.body.style.overflow = '';
+      });
+    });
   }
 
   // ======================== SCROLL REVEAL ANIMATIONS ========================
@@ -63,17 +69,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // ======================== SMOOTH SCROLL FOR ANCHORS ========================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      e.preventDefault();
       const targetId = this.getAttribute('href');
       if (targetId === '#') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        e.preventDefault();
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
         return;
       }
       const target = document.querySelector(targetId);
       if (target) {
-        const navHeight = navbar.offsetHeight;
+        e.preventDefault();
+        const navHeight = navbar ? navbar.offsetHeight : 0;
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
-        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: targetPosition, behavior: reduceMotion ? 'auto' : 'smooth' });
       }
     });
   });
@@ -82,34 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contactForm');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', () => {
+    contactForm.addEventListener('submit', (e) => {
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+
+      // Validate that at least one contact method is provided (FOR-02)
+      if (!emailVal && !phoneVal) {
+        e.preventDefault();
+        alert('Bitte geben Sie mindestens eine Kontaktmöglichkeit (E-Mail-Adresse oder Telefonnummer) an, damit ich Ihre Anfrage beantworten kann.');
+        if (emailInput) emailInput.focus();
+        return false;
+      }
+
       // Let the native form POST go through to Formsubmit.co
       const submitBtn = contactForm.querySelector('button[type="submit"]');
-      submitBtn.textContent = 'Wird gesendet …';
-      submitBtn.style.opacity = '0.7';
+      if (submitBtn) {
+        submitBtn.textContent = 'Wird gesendet …';
+        submitBtn.style.opacity = '0.7';
+      }
     });
-  }
-
-  // ======================== COOKIE BANNER ========================
-  const cookieBanner = document.getElementById('cookieBanner');
-  const cookieAccept = document.getElementById('cookieAccept');
-  const cookieDecline = document.getElementById('cookieDecline');
-
-  if (cookieBanner && cookieAccept && cookieDecline) {
-    // Check if user already made a choice
-    if (!localStorage.getItem('cookieConsent')) {
-      setTimeout(() => {
-        cookieBanner.classList.add('show');
-      }, 1500);
-    }
-
-    const hideCookieBanner = (choice) => {
-      localStorage.setItem('cookieConsent', choice);
-      cookieBanner.classList.remove('show');
-    };
-
-    cookieAccept.addEventListener('click', () => hideCookieBanner('accepted'));
-    cookieDecline.addEventListener('click', () => hideCookieBanner('declined'));
   }
 
   // ======================== ACTIVE NAV LINK ON SCROLL ========================
@@ -117,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navAnchors = document.querySelectorAll('.nav-links a');
 
   const highlightNav = () => {
+    if (!navbar) return;
     const scrollPos = window.scrollY + navbar.offsetHeight + 100;
 
     sections.forEach(section => {
