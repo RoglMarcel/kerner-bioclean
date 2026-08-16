@@ -2118,21 +2118,24 @@ section {
 /* --- Accessibility & Form Helper Styles (Audit 2026) --- */
 .skip-link {
     position: absolute;
-    left: -9999px;
-    top: 0;
+    top: -100px;
+    left: 16px;
     z-index: 10000;
     background: var(--primary);
     color: var(--white);
-    padding: 12px 20px;
-    border-radius: 0 0 var(--radius-sm) 0;
+    padding: 10px 20px;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none;
-    transition: left var(--transition);
+    box-shadow: var(--shadow-md);
+    transition: top 0.2s ease;
 }
 
 .skip-link:focus {
-    left: 0;
+    top: 0;
+    outline: 2px solid var(--white);
+    outline-offset: -4px;
 }
 
 a:focus-visible,
